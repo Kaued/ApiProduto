@@ -40,6 +40,30 @@ namespace ApiCatalogo.Migrations
                     b.ToTable("Categorias");
                 });
 
+            modelBuilder.Entity("APICatalogo.Models.Pedido", b =>
+                {
+                    b.Property<int>("PedidoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DataCadastro")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("NomeCliente")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar(300)");
+
+                    b.Property<string>("Total")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar(300)");
+
+                    b.HasKey("PedidoId");
+
+                    b.ToTable("Pedidos");
+                });
+
             modelBuilder.Entity("APICatalogo.Models.Produto", b =>
                 {
                     b.Property<int>("ProdutoId")
@@ -80,6 +104,21 @@ namespace ApiCatalogo.Migrations
                     b.ToTable("Produtos");
                 });
 
+            modelBuilder.Entity("PedidoProduto", b =>
+                {
+                    b.Property<int>("PedidosPedidoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProdutosProdutoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PedidosPedidoId", "ProdutosProdutoId");
+
+                    b.HasIndex("ProdutosProdutoId");
+
+                    b.ToTable("PedidoProduto");
+                });
+
             modelBuilder.Entity("APICatalogo.Models.Produto", b =>
                 {
                     b.HasOne("APICatalogo.Models.Categoria", "Categoria")
@@ -89,6 +128,21 @@ namespace ApiCatalogo.Migrations
                         .IsRequired();
 
                     b.Navigation("Categoria");
+                });
+
+            modelBuilder.Entity("PedidoProduto", b =>
+                {
+                    b.HasOne("APICatalogo.Models.Pedido", null)
+                        .WithMany()
+                        .HasForeignKey("PedidosPedidoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("APICatalogo.Models.Produto", null)
+                        .WithMany()
+                        .HasForeignKey("ProdutosProdutoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("APICatalogo.Models.Categoria", b =>
