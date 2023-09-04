@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using APICatalogo.Context;
 using APICatalogo.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,7 @@ namespace ApiCatalogo.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult<IEnumerable<Categoria>> Get(){
             var categorias = _context.Categorias.AsNoTracking().ToList();
 
