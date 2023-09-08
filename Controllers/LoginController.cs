@@ -23,7 +23,7 @@ public class LoginController : ControllerBase
 
     public LoginController(AppDbContext context, IConfiguration configuration, ITokeService tokenServices)
     {
-        configuration=(IConfigurationRoot)configuration;
+        Configuration=(IConfigurationRoot)configuration;
         _context = context;
         tokeService=tokenServices;
     }
