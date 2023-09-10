@@ -16,3 +16,4 @@ Information: 0 - ########################################
 Information: 0 - 14:29:35
 Information: 0 - Model StateTrue
 Information: 0 - ########################################
+Information: 0 - Application is shutting down...
