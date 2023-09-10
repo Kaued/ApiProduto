@@ -37,10 +37,9 @@ public class LoginController : ControllerBase
 
         if (user.UserName == "teste" && user.Password == "teste"){
             var tokenString = tokeService.GerarToken(Configuration["Jwt:Key"],
-                Configuration["Jwt:Issuer"],
-                Configuration["Jwt:Audience"],
-                user
-            );
+                                                     Configuration["Jwt:Issuer"],
+                                                     Configuration["Jwt:Audience"],
+                                                     user);
 
             return Ok(new {tokern = tokenString});
         }

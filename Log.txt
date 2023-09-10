@@ -1,0 +1,18 @@
+Information: 14 - Now listening on: http://localhost:5169
+Information: 0 - Application started. Press Ctrl+C to shut down.
+Information: 0 - Hosting environment: Development
+Information: 0 - Content root path: C:\xampp\htdocs\ApiProdutos
+Warning: 3 - Failed to determine the https port for redirect.
+Information: 0 - ### Executando -> OnActionExecuted
+Information: 0 - ########################################
+Information: 0 - 14:29:35
+Information: 0 - ########################################
+Information: 20101 - Executed DbCommand (13ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT `p`.`ProdutoId`, `p`.`CategoriaId`, `p`.`DataCadastro`, `p`.`Descricao`, `p`.`Estoque`, `p`.`ImagemUrl`, `p`.`Nome`, `p`.`Preco`
+FROM `Produtos` AS `p`
+Information: 0 - <=============Get api/produtos==========>
+Warning: 0 - ### Executando -> OnActionExecuting
+Information: 0 - ########################################
+Information: 0 - 14:29:35
+Information: 0 - Model StateTrue
+Information: 0 - ########################################

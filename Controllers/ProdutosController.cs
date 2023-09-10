@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using APICatalogo.Context;
+using APICatalogo.Filters;
 using APICatalogo.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,19 +13,23 @@ namespace ApiCatalogo.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [ServiceFilter(typeof(ApiLogginFilter))]
     public class ProdutosController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly ILogger<ProdutosController> _logger;
 
-        public ProdutosController(AppDbContext context)
+        public ProdutosController(AppDbContext context, ILogger<ProdutosController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<Produto>> Get(){
             var produtos = _context.Produtos.AsNoTracking().ToList();
 
+            _logger.LogInformation("<=============Get api/produtos==========>");
             if(produtos is null){
                 return  NotFound();
             }
