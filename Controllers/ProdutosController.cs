@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiCatalogo.Repository;
 using APICatalogo.Context;
 using APICatalogo.Filters;
 using APICatalogo.Models;
@@ -16,18 +17,23 @@ namespace ApiCatalogo.Controllers
     [ServiceFilter(typeof(ApiLogginFilter))]
     public class ProdutosController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IUnitOfWork _uof;
         private readonly ILogger<ProdutosController> _logger;
 
-        public ProdutosController(AppDbContext context, ILogger<ProdutosController> logger)
+        public ProdutosController(IUnitOfWork context, ILogger<ProdutosController> logger)
         {
-            _context = context;
+            _uof = context;
             _logger = logger;
+        }
+
+        [HttpGet("menorPreco")]
+        public ActionResult<IEnumerable<Produto>> GetOrderPreco(){
+            return _uof.ProdutoRepository.GetProdutosPorPreco().ToList();
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<Produto>> Get(){
-            var produtos = _context.Produtos.AsNoTracking().ToList();
+            var produtos = _uof.ProdutoRepository.Get().ToList();
 
             _logger.LogInformation("<=============Get api/produtos==========>");
             if(produtos is null){
@@ -38,7 +44,7 @@ namespace ApiCatalogo.Controllers
 
         [HttpGet("id:int", Name="ObeterProduto")]
         public ActionResult<Produto> Get(int id){
-            var produto = _context.Produtos.AsNoTracking().FirstOrDefault(p=>p.ProdutoId == id);
+            var produto = _uof.ProdutoRepository.GetById(p=>p.ProdutoId == id);
 
             if(produto == null){
                 return NotFound();
@@ -53,8 +59,8 @@ namespace ApiCatalogo.Controllers
                 return BadRequest(); 
             } 
 
-            _context.Produtos.Add(produto);
-            _context.SaveChanges();
+            _uof.ProdutoRepository.Add(produto);
+            _uof.Commit();
 
             return new CreatedAtRouteResult("ObeterProduto", 
                 new {id= produto.ProdutoId}, produto);
@@ -66,22 +72,22 @@ namespace ApiCatalogo.Controllers
                 return BadRequest();
             }
 
-            _context.Produtos.Entry(produtos).State = EntityState.Modified;
-            _context.SaveChanges();
+            _uof.ProdutoRepository.Update(produtos);
+            _uof.Commit();
             
             return Ok(produtos);
         }
     
         [HttpDelete("{id:int}")]
         public ActionResult Delete(int id){
-            var produtos = _context.Produtos.FirstOrDefault(p=>p.ProdutoId==id);
+            var produtos = _uof.ProdutoRepository.GetById(p=>p.ProdutoId==id);
 
             if (produtos is null){
                 return BadRequest();
             }
 
-            _context.Produtos.Remove(produtos);
-            _context.SaveChanges(); 
+            _uof.ProdutoRepository.Delete(produtos);
+            _uof.Commit(); 
 
             return Ok(produtos);
         }    
