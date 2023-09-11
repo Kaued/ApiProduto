@@ -2,6 +2,7 @@ using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Text.Json.Serialization;
 using ApiCatalogo.Loggin;
+using ApiCatalogo.Repository;
 using APICatalogo.Context;
 using APICatalogo.Filters;
 using APICatalogo.Service;
@@ -14,7 +15,7 @@ using NuGet.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Adsssd services to the container.
+// Add services to the container.
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -80,6 +81,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 builder.Services.AddAuthorization();
 
 builder.Services.AddScoped<ApiLogginFilter>();
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Logging.AddProvider(new CustomLoggerProvider(new CustomLoggerProviderConfiguration{
     LogLevel= Microsoft.Extensions.Logging.LogLevel.Information
