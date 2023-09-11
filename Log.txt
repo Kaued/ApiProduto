@@ -17,3 +17,105 @@ Information: 0 - 14:29:35
 Information: 0 - Model StateTrue
 Information: 0 - ########################################
 Information: 0 - Application is shutting down...
+Information: 20101 - Executed DbCommand (15ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='CatalogoDB' AND TABLE_NAME='__EFMigrationsHistory';
+Information: 20101 - Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='CatalogoDB' AND TABLE_NAME='__EFMigrationsHistory';
+Information: 20101 - Executed DbCommand (54ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT `MigrationId`, `ProductVersion`
+FROM `__EFMigrationsHistory`
+ORDER BY `MigrationId`;
+Information: 20405 - No migrations were applied. The database is already up to date.
+Information: 14 - Now listening on: http://localhost:5169
+Information: 0 - Application started. Press Ctrl+C to shut down.
+Information: 0 - Hosting environment: Development
+Information: 0 - Content root path: C:\Users\kaued\Documents\Projects\ApiCatalogo
+Warning: 3 - Failed to determine the https port for redirect.
+Information: 0 - ### Executando -> OnActionExecuted
+Information: 0 - ########################################
+Information: 0 - 14:34:15
+Information: 0 - ########################################
+Information: 20101 - Executed DbCommand (32ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT `p`.`ProdutoId`, `p`.`CategoriaId`, `p`.`DataCadastro`, `p`.`Descricao`, `p`.`Estoque`, `p`.`ImagemUrl`, `p`.`Nome`, `p`.`Preco`
+FROM `Produtos` AS `p`
+ORDER BY `p`.`Preco`
+Warning: 0 - ### Executando -> OnActionExecuting
+Information: 0 - ########################################
+Information: 0 - 14:34:18
+Information: 0 - Model StateTrue
+Information: 0 - ########################################
+Information: 0 - ### Executando -> OnActionExecuted
+Information: 0 - ########################################
+Information: 0 - 14:36:56
+Information: 0 - ########################################
+Information: 20101 - Executed DbCommand (65ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime), @p2='?' (Size = 300), @p3='?' (DbType = Single), @p4='?' (Size = 300), @p5='?' (Size = 300), @p6='?' (DbType = Decimal)], CommandType='Text', CommandTimeout='30']
+INSERT INTO `Produtos` (`CategoriaId`, `DataCadastro`, `Descricao`, `Estoque`, `ImagemUrl`, `Nome`, `Preco`)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6);
+SELECT `ProdutoId`
+FROM `Produtos`
+WHERE ROW_COUNT() = 1 AND `ProdutoId` = LAST_INSERT_ID();
+Warning: 0 - ### Executando -> OnActionExecuting
+Information: 0 - ########################################
+Information: 0 - 14:36:57
+Information: 0 - Model StateTrue
+Information: 0 - ########################################
+Information: 0 - ### Executando -> OnActionExecuted
+Information: 0 - ########################################
+Information: 0 - 14:37:35
+Information: 0 - ########################################
+Information: 20101 - Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT `p`.`ProdutoId`, `p`.`CategoriaId`, `p`.`DataCadastro`, `p`.`Descricao`, `p`.`Estoque`, `p`.`ImagemUrl`, `p`.`Nome`, `p`.`Preco`
+FROM `Produtos` AS `p`
+Information: 0 - <=============Get api/produtos==========>
+Warning: 0 - ### Executando -> OnActionExecuting
+Information: 0 - ########################################
+Information: 0 - 14:37:35
+Information: 0 - Model StateTrue
+Information: 0 - ########################################
+Information: 0 - ### Executando -> OnActionExecuted
+Information: 0 - ########################################
+Information: 0 - 14:37:47
+Information: 0 - ########################################
+Information: 20101 - Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT `p`.`ProdutoId`, `p`.`CategoriaId`, `p`.`DataCadastro`, `p`.`Descricao`, `p`.`Estoque`, `p`.`ImagemUrl`, `p`.`Nome`, `p`.`Preco`
+FROM `Produtos` AS `p`
+WHERE `p`.`ProdutoId` = @__id_0
+LIMIT 2
+Warning: 0 - ### Executando -> OnActionExecuting
+Information: 0 - ########################################
+Information: 0 - 14:37:47
+Information: 0 - Model StateTrue
+Information: 0 - ########################################
+Information: 0 - ### Executando -> OnActionExecuted
+Information: 0 - ########################################
+Information: 0 - 14:38:46
+Information: 0 - ########################################
+Information: 20101 - Executed DbCommand (4ms) [Parameters=[@p7='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = DateTime), @p2='?' (Size = 300), @p3='?' (DbType = Single), @p4='?' (Size = 300), @p5='?' (Size = 300), @p6='?' (DbType = Decimal)], CommandType='Text', CommandTimeout='30']
+SET AUTOCOMMIT = 1;
+UPDATE `Produtos` SET `CategoriaId` = @p0, `DataCadastro` = @p1, `Descricao` = @p2, `Estoque` = @p3, `ImagemUrl` = @p4, `Nome` = @p5, `Preco` = @p6
+WHERE `ProdutoId` = @p7;
+SELECT ROW_COUNT();
+Warning: 0 - ### Executando -> OnActionExecuting
+Information: 0 - ########################################
+Information: 0 - 14:38:46
+Information: 0 - Model StateTrue
+Information: 0 - ########################################
+Information: 0 - ### Executando -> OnActionExecuted
+Information: 0 - ########################################
+Information: 0 - 14:38:56
+Information: 0 - ########################################
+Information: 20101 - Executed DbCommand (2ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT `p`.`ProdutoId`, `p`.`CategoriaId`, `p`.`DataCadastro`, `p`.`Descricao`, `p`.`Estoque`, `p`.`ImagemUrl`, `p`.`Nome`, `p`.`Preco`
+FROM `Produtos` AS `p`
+WHERE `p`.`ProdutoId` = @__id_0
+LIMIT 2
+Information: 20101 - Executed DbCommand (3ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SET AUTOCOMMIT = 1;
+DELETE FROM `Produtos`
+WHERE `ProdutoId` = @p0;
+SELECT ROW_COUNT();
+Warning: 0 - ### Executando -> OnActionExecuting
+Information: 0 - ########################################
+Information: 0 - 14:38:56
+Information: 0 - Model StateTrue
+Information: 0 - ########################################
