@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiCatalogo.Repository;
 using APICatalogo.Context;
 using APICatalogo.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -15,17 +16,17 @@ namespace ApiCatalogo.Controllers
     [ApiController]
     public class CategoriasController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IUnitOfWork _ufo;
 
-        public CategoriasController(AppDbContext context)
+        public CategoriasController(IUnitOfWork context)
         {
-            _context = context;
+            _ufo = context;
         }
 
         [HttpGet]
         [Authorize]
         public ActionResult<IEnumerable<Categoria>> Get(){
-            var categorias = _context.Categorias.AsNoTracking().ToList();
+            var categorias = _ufo.CategoriaRepository.Get().ToList();
 
             if(categorias is null){
                 return NoContent();
@@ -36,7 +37,7 @@ namespace ApiCatalogo.Controllers
 
         [HttpGet("produtos")]
         public ActionResult<IEnumerable<Categoria>> GetCategoriasProdutos(){
-            var categorias = _context.Categorias.AsNoTracking().Include(p => p.Produtos).ToList();
+            var categorias = _ufo.CategoriaRepository.GetCategoriasProduto().ToList();
             if(categorias is null){
                 return NoContent();
             }
@@ -45,7 +46,7 @@ namespace ApiCatalogo.Controllers
         }
         [HttpGet("{id:int}", Name = "ObeterCategoria")]
         public ActionResult<Categoria> Get(int id){
-            var categorias = _context.Categorias.AsNoTracking().FirstOrDefault(c => c.CategoriaId == id);
+            var categorias = _ufo.CategoriaRepository.GetById(c => c.CategoriaId == id);
 
             if(categorias is null){
                 return NoContent();
@@ -60,8 +61,8 @@ namespace ApiCatalogo.Controllers
             if(categoria is null){
                 return BadRequest();
             }	
-            _context.Categorias.Add(categoria);
-            _context.SaveChanges();
+            _ufo.CategoriaRepository.Add(categoria);
+            _ufo.Commit();
 
             return new CreatedAtRouteResult("ObeterCategoria", new {id = categoria.CategoriaId}, categoria);
         }
@@ -73,21 +74,21 @@ namespace ApiCatalogo.Controllers
                 return BadRequest();
             }
 
-            _context.Categorias.Entry(categoria).State = EntityState.Modified;
-            _context.SaveChanges();
+            _ufo.CategoriaRepository.Update(categoria);
+            _ufo.Commit();
 
             return Ok(categoria);
         }
 
         [HttpDelete("{id:int}")]
         public ActionResult<Categoria> Delete(int id){
-            var categoria = _context.Categorias.FirstOrDefault(categoria => categoria.CategoriaId == id);
+            var categoria = _ufo.CategoriaRepository.GetById(categoria => categoria.CategoriaId == id);
             if(categoria is null){
                 return BadRequest();
             }
 
-            _context.Categorias.Remove(categoria);
-            _context.SaveChanges();
+            _ufo.CategoriaRepository.Delete(categoria);
+            _ufo.Commit();
 
             return Ok(categoria);
         }
