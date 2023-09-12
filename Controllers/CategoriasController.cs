@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiCatalogo.DTOs;
 using APICatalogo.Context;
 using APICatalogo.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,71 +18,78 @@ namespace ApiCatalogo.Controllers
     public class CategoriasController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly IMapper _mapper;
 
-        public CategoriasController(AppDbContext context)
+        public CategoriasController(AppDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet]
         [Authorize]
-        public ActionResult<IEnumerable<Categoria>> Get(){
+        public ActionResult<IEnumerable<CategoriaDTO>> Get(){
             var categorias = _context.Categorias.AsNoTracking().ToList();
 
             if(categorias is null){
                 return NoContent();
             }
 
-            return categorias;
+            return _mapper.Map<List<CategoriaDTO>>(categorias);
         }
 
         [HttpGet("produtos")]
-        public ActionResult<IEnumerable<Categoria>> GetCategoriasProdutos(){
+        public ActionResult<IEnumerable<CategoriaDTO>> GetCategoriasProdutos(){
             var categorias = _context.Categorias.AsNoTracking().Include(p => p.Produtos).ToList();
             if(categorias is null){
                 return NoContent();
             }
 
-            return categorias;
+            return _mapper.Map<List<CategoriaDTO>>(categorias);
         }
         [HttpGet("{id:int}", Name = "ObeterCategoria")]
-        public ActionResult<Categoria> Get(int id){
+        public ActionResult<CategoriaDTO> Get(int id){
             var categorias = _context.Categorias.AsNoTracking().FirstOrDefault(c => c.CategoriaId == id);
 
             if(categorias is null){
                 return NoContent();
             }
 
-            return categorias;
+            return _mapper.Map<CategoriaDTO>(categorias);
         }
 
         [HttpPost]
-        public ActionResult<Categoria> Post(Categoria categoria){
-
+        public ActionResult<CategoriaDTO> Post(CategoriaDTO categoriaDTO){
+            var categoria = _mapper.Map<Categoria>(categoriaDTO);
             if(categoria is null){
                 return BadRequest();
             }	
             _context.Categorias.Add(categoria);
             _context.SaveChanges();
-
-            return new CreatedAtRouteResult("ObeterCategoria", new {id = categoria.CategoriaId}, categoria);
+            
+            var showCategoria = _mapper.Map<CategoriaDTO>(categoria);
+            return new CreatedAtRouteResult("ObeterCategoria", new {id = categoria.CategoriaId}, showCategoria);
         }
 
         [HttpPut("{id:int}")]
 
-        public ActionResult<Categoria> Put(int id, Categoria categoria){
-            if(id != categoria.CategoriaId){
+        public ActionResult<CategoriaDTO> Put(int id, CategoriaDTO categoriaDTO){
+            if(id != categoriaDTO.CategoriaId){
                 return BadRequest();
             }
+
+            var categoria = _mapper.Map<Categoria>(categoriaDTO);
 
             _context.Categorias.Entry(categoria).State = EntityState.Modified;
             _context.SaveChanges();
 
-            return Ok(categoria);
+            var showCategoria = _mapper.Map<CategoriaDTO>(categoria);
+
+            return Ok(showCategoria);
         }
 
         [HttpDelete("{id:int}")]
-        public ActionResult<Categoria> Delete(int id){
+        public ActionResult<CategoriaDTO> Delete(int id){
             var categoria = _context.Categorias.FirstOrDefault(categoria => categoria.CategoriaId == id);
             if(categoria is null){
                 return BadRequest();
@@ -89,7 +98,9 @@ namespace ApiCatalogo.Controllers
             _context.Categorias.Remove(categoria);
             _context.SaveChanges();
 
-            return Ok(categoria);
+            var showCategoria = _mapper.Map<CategoriaDTO>(categoria);
+
+            return Ok(showCategoria);
         }
     }
 }

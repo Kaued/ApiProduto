@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiCatalogo.DTOs;
 using APICatalogo.Context;
 using APICatalogo.Filters;
 using APICatalogo.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,37 +20,41 @@ namespace ApiCatalogo.Controllers
     {
         private readonly AppDbContext _context;
         private readonly ILogger<ProdutosController> _logger;
+        private readonly IMapper _mapper;
 
-        public ProdutosController(AppDbContext context, ILogger<ProdutosController> logger)
+        public ProdutosController(AppDbContext context, ILogger<ProdutosController> logger, IMapper mapper)
         {
             _context = context;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Produto>> Get(){
+        public ActionResult<IEnumerable<ProdutoDTO>> Get(){
             var produtos = _context.Produtos.AsNoTracking().ToList();
 
             _logger.LogInformation("<=============Get api/produtos==========>");
             if(produtos is null){
                 return  NotFound();
             }
-            return produtos;
+            return _mapper.Map<List<ProdutoDTO>>(produtos);
         }
 
         [HttpGet("id:int", Name="ObeterProduto")]
-        public ActionResult<Produto> Get(int id){
+        public ActionResult<ProdutoDTO> Get(int id){
             var produto = _context.Produtos.AsNoTracking().FirstOrDefault(p=>p.ProdutoId == id);
 
             if(produto == null){
                 return NotFound();
             }
 
-            return produto;
+            return _mapper.Map<ProdutoDTO>(produto);
         }
 
         [HttpPost]
-        public ActionResult Post(Produto produto){
+        public ActionResult Post(ProdutoDTO produtoDTO)
+        {
+            var produto = _mapper.Map<Produto>(produtoDTO); 
             if(produto is null){
                 return BadRequest(); 
             } 
@@ -56,20 +62,23 @@ namespace ApiCatalogo.Controllers
             _context.Produtos.Add(produto);
             _context.SaveChanges();
 
+            var showProduto = _mapper.Map<ProdutoDTO>(produto);
             return new CreatedAtRouteResult("ObeterProduto", 
-                new {id= produto.ProdutoId}, produto);
+                new {id= produto.ProdutoId}, showProduto);
         }
 
         [HttpPut("{id:int}")]
-        public ActionResult Put(int id, Produto produtos){
-            if(id != produtos.ProdutoId){
+        public ActionResult Put(int id, ProdutoDTO produtoDTO){
+            if(id != produtoDTO.ProdutoId){
                 return BadRequest();
             }
 
+            var produtos = _mapper.Map<Produto>(produtoDTO);
             _context.Produtos.Entry(produtos).State = EntityState.Modified;
             _context.SaveChanges();
             
-            return Ok(produtos);
+            var showProduto = _mapper.Map<ProdutoDTO>(produtos);
+            return Ok(showProduto);
         }
     
         [HttpDelete("{id:int}")]
@@ -83,7 +92,8 @@ namespace ApiCatalogo.Controllers
             _context.Produtos.Remove(produtos);
             _context.SaveChanges(); 
 
-            return Ok(produtos);
+            var showProduto = _mapper.Map<ProdutoDTO>(produtos);
+            return Ok(showProduto);
         }    
     }
 }
