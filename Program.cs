@@ -1,11 +1,13 @@
 using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Text.Json.Serialization;
+using ApiCatalogo.DTOs.Mappings;
 using ApiCatalogo.Loggin;
 using APICatalogo.Context;
 using APICatalogo.Filters;
 using APICatalogo.Service;
 using APICatalogo.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -57,6 +59,11 @@ builder.Services.AddSwaggerGen();
 
 string mySqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
 
+var mappingConfig = new MapperConfiguration(mc=>{
+    mc.AddProfile(new MappingProfile());
+});
+
+IMapper mapper = mappingConfig.CreateMapper();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(mySqlConnection,
     ServerVersion.AutoDetect(mySqlConnection)));
@@ -84,6 +91,8 @@ builder.Services.AddScoped<ApiLogginFilter>();
 builder.Logging.AddProvider(new CustomLoggerProvider(new CustomLoggerProviderConfiguration{
     LogLevel= Microsoft.Extensions.Logging.LogLevel.Information
 }));
+
+builder.Services.AddSingleton(mapper);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
