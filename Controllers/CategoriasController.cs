@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ApiCatalogo.DTOs;
+using ApiCatalogo.Pagination;
 using APICatalogo.Context;
 using APICatalogo.Models;
 using AutoMapper;
@@ -28,13 +29,19 @@ namespace ApiCatalogo.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult<IEnumerable<CategoriaDTO>> Get(){
-            var categorias = _context.Categorias.AsNoTracking().ToList();
+        public ActionResult<IEnumerable<CategoriaDTO>> Get([FromQuery] CategoriaParameters categoriaParameters){
+            var categorias =  PageList<Categoria>.ToPageList(_context.Categorias.AsNoTracking().OrderBy(on => on.Nome), categoriaParameters.PageNumber, categoriaParameters.PageSize);
 
             if(categorias is null){
                 return NoContent();
             }
-
+            var metadata = new {
+                categorias.TotalCount,
+                categorias.PageSize,
+                categorias.TotalPages,
+                categorias.HasNext,
+                categorias.HasPrevious
+            };
             return _mapper.Map<List<CategoriaDTO>>(categorias);
         }
 

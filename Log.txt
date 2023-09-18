@@ -163,3 +163,7 @@ Information: 0 - ########################################
 Information: 0 - 14:21:49
 Information: 0 - Model StateTrue
 Information: 0 - ########################################
+Information: 14 - Now listening on: http://localhost:5169
+Information: 0 - Application started. Press Ctrl+C to shut down.
+Information: 0 - Hosting environment: Development
+Information: 0 - Content root path: C:\Users\kaued\Documents\Projects\ApiCatalogo
