@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ApiCatalogo.DTOs;
+using ApiCatalogo.Pagination;
 using APICatalogo.Context;
 using APICatalogo.Filters;
 using APICatalogo.Models;
@@ -10,6 +11,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace ApiCatalogo.Controllers
 {
@@ -30,13 +32,24 @@ namespace ApiCatalogo.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ProdutoDTO>> Get(){
-            var produtos = _context.Produtos.AsNoTracking().ToList();
+        public ActionResult<IEnumerable<ProdutoDTO>> Get([FromQuery]ProdutosParameters produtosParameters){
+            var produtos = PageList<Produto>.ToPageList(_context.Produtos.AsNoTracking()
+                .OrderBy(on => on.Nome), produtosParameters.PageNumber, produtosParameters.PageSize);
 
             _logger.LogInformation("<=============Get api/produtos==========>");
             if(produtos is null){
                 return  NotFound();
             }
+
+            var metadata = new{
+                produtos.TotalCount,
+                produtos.PageSize,
+                produtos.TotalPages,
+                produtos.HasNext,
+                produtos.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
             return _mapper.Map<List<ProdutoDTO>>(produtos);
         }
 

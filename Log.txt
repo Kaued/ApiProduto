@@ -61,3 +61,105 @@ SELECT `c`.`CategoriaId`, `c`.`ImagemUrl`, `c`.`Nome`, `p`.`ProdutoId`, `p`.`Cat
 FROM `Categorias` AS `c`
 LEFT JOIN `Produtos` AS `p` ON `c`.`CategoriaId` = `p`.`CategoriaId`
 ORDER BY `c`.`CategoriaId`
+Information: 14 - Now listening on: http://localhost:5169
+Information: 0 - Application started. Press Ctrl+C to shut down.
+Information: 0 - Hosting environment: Development
+Information: 0 - Content root path: C:\Users\kaued\Documents\Projects\ApiCatalogo
+Information: 0 - Application is shutting down...
+Information: 14 - Now listening on: http://localhost:5169
+Information: 0 - Application started. Press Ctrl+C to shut down.
+Information: 0 - Hosting environment: Development
+Information: 0 - Content root path: C:\Users\kaued\Documents\Projects\ApiCatalogo
+Warning: 3 - Failed to determine the https port for redirect.
+Error: 1 - An unhandled exception has occurred while executing the request.
+Information: 0 - ### Executando -> OnActionExecuted
+Information: 0 - ########################################
+Information: 0 - 13:55:53
+Information: 0 - ########################################
+Information: 20101 - Executed DbCommand (76ms) [Parameters=[@__p_1='?' (DbType = Int32), @__p_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT `p`.`ProdutoId`, `p`.`CategoriaId`, `p`.`DataCadastro`, `p`.`Descricao`, `p`.`Estoque`, `p`.`ImagemUrl`, `p`.`Nome`, `p`.`Preco`
+FROM `Produtos` AS `p`
+ORDER BY `p`.`Nome`
+LIMIT @__p_1 OFFSET @__p_0
+Information: 0 - <=============Get api/produtos==========>
+Warning: 0 - ### Executando -> OnActionExecuting
+Information: 0 - ########################################
+Information: 0 - 13:55:54
+Information: 0 - Model StateTrue
+Information: 0 - ########################################
+Information: 0 - ### Executando -> OnActionExecuted
+Information: 0 - ########################################
+Information: 0 - 13:56:01
+Information: 0 - ########################################
+Information: 20101 - Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT `p`.`ProdutoId`, `p`.`CategoriaId`, `p`.`DataCadastro`, `p`.`Descricao`, `p`.`Estoque`, `p`.`ImagemUrl`, `p`.`Nome`, `p`.`Preco`
+FROM `Produtos` AS `p`
+ORDER BY `p`.`Nome`
+LIMIT @__p_0 OFFSET @__p_0
+Information: 0 - <=============Get api/produtos==========>
+Warning: 0 - ### Executando -> OnActionExecuting
+Information: 0 - ########################################
+Information: 0 - 13:56:01
+Information: 0 - Model StateTrue
+Information: 0 - ########################################
+Information: 0 - ### Executando -> OnActionExecuted
+Information: 0 - ########################################
+Information: 0 - 13:56:06
+Information: 0 - ########################################
+Information: 20101 - Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT `p`.`ProdutoId`, `p`.`CategoriaId`, `p`.`DataCadastro`, `p`.`Descricao`, `p`.`Estoque`, `p`.`ImagemUrl`, `p`.`Nome`, `p`.`Preco`
+FROM `Produtos` AS `p`
+ORDER BY `p`.`Nome`
+LIMIT @__p_0 OFFSET @__p_0
+Information: 0 - <=============Get api/produtos==========>
+Warning: 0 - ### Executando -> OnActionExecuting
+Information: 0 - ########################################
+Information: 0 - 13:56:06
+Information: 0 - Model StateTrue
+Information: 0 - ########################################
+Information: 0 - ### Executando -> OnActionExecuted
+Information: 0 - ########################################
+Information: 0 - 13:56:11
+Information: 0 - ########################################
+Information: 20101 - Executed DbCommand (0ms) [Parameters=[@__p_1='?' (DbType = Int32), @__p_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT `p`.`ProdutoId`, `p`.`CategoriaId`, `p`.`DataCadastro`, `p`.`Descricao`, `p`.`Estoque`, `p`.`ImagemUrl`, `p`.`Nome`, `p`.`Preco`
+FROM `Produtos` AS `p`
+ORDER BY `p`.`Nome`
+LIMIT @__p_1 OFFSET @__p_0
+Information: 0 - <=============Get api/produtos==========>
+Warning: 0 - ### Executando -> OnActionExecuting
+Information: 0 - ########################################
+Information: 0 - 13:56:11
+Information: 0 - Model StateTrue
+Information: 0 - ########################################
+Information: 14 - Now listening on: http://localhost:5169
+Information: 0 - Application started. Press Ctrl+C to shut down.
+Information: 0 - Hosting environment: Development
+Information: 0 - Content root path: C:\Users\kaued\Documents\Projects\ApiCatalogo
+Information: 14 - Now listening on: http://localhost:5169
+Information: 0 - Application started. Press Ctrl+C to shut down.
+Information: 0 - Hosting environment: Development
+Information: 0 - Content root path: C:\Users\kaued\Documents\Projects\ApiCatalogo
+Information: 14 - Now listening on: http://localhost:5169
+Information: 0 - Application started. Press Ctrl+C to shut down.
+Information: 0 - Hosting environment: Development
+Information: 0 - Content root path: C:\Users\kaued\Documents\Projects\ApiCatalogo
+Warning: 3 - Failed to determine the https port for redirect.
+Information: 0 - ### Executando -> OnActionExecuted
+Information: 0 - ########################################
+Information: 0 - 14:21:48
+Information: 0 - ########################################
+Information: 20101 - Executed DbCommand (23ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT COUNT(*)
+FROM `Produtos` AS `p`
+Information: 20101 - Executed DbCommand (41ms) [Parameters=[@__p_1='?' (DbType = Int32), @__p_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT `p`.`ProdutoId`, `p`.`CategoriaId`, `p`.`DataCadastro`, `p`.`Descricao`, `p`.`Estoque`, `p`.`ImagemUrl`, `p`.`Nome`, `p`.`Preco`
+FROM `Produtos` AS `p`
+ORDER BY `p`.`Nome`
+LIMIT @__p_1 OFFSET @__p_0
+Information: 0 - <=============Get api/produtos==========>
+Warning: 0 - ### Executando -> OnActionExecuting
+Information: 0 - ########################################
+Information: 0 - 14:21:49
+Information: 0 - Model StateTrue
+Information: 0 - ########################################
