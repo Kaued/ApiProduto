@@ -35,7 +35,7 @@ public class LoginController : ControllerBase
             return BadRequest("Login invalido");
         }
 
-        if (user.UserName == "teste" && user.Password == "teste"){
+        if (user.Email == "teste" && user.Password == "teste"){
             var tokenString = tokeService.GerarToken(Configuration["Jwt:Key"],
                                                      Configuration["Jwt:Issuer"],
                                                      Configuration["Jwt:Audience"],

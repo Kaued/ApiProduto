@@ -11,7 +11,7 @@ public class TokenService: ITokeService {
 
   public string GerarToken(string key, string issues, string audience, UserModel user){
     var claims = new []{
-      new Claim(ClaimTypes.Name, user.UserName),
+      new Claim(ClaimTypes.Name, user.Email),
       new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString())
     };
 
